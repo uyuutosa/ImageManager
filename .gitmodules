@@ -1,0 +1,3 @@
+[submodule "ImageHandler"]
+	path = ImageHandler
+	url = https://github.com/uyuutosa/ImageHandler
