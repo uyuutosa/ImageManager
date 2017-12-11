@@ -5,16 +5,38 @@
 
 
 
+
 class ImageManager {
 public:
 	ImageManager() {
 
 	}
 
+	void setMovieSize(int _movieSize);
 
-	void setImages(std::string path);
+	template < typename T >
+	void setImages(T path);
 
-	std::vector<imageHandler> iamges;
+	template < typename T, typename ... Types >
+	void setImages(T head, Types ... tail);
+
+	template < typename T >
+	void setOffset(T nOffset);
+
+	template < typename T, typename ... Types >
+	void setOffset(T head, Types ... tail);
+
+	void resize(int height, int width);
+
+	void concat(int nRow, int nCol);
+
+	void trim(int _movieSize);
+
+	void view();
+
+	int movieSize;
+	std::vector<std::shared_ptr<imageHandler> > images;
+	std::vector<int> offsetList;
 
 };
 
