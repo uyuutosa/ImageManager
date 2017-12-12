@@ -44,27 +44,40 @@ void ImageManager::concat(int nRow, int nCol)
 }
 
 void ImageManager::trim(int _movieSize){
-	if (!_movieSize)
+	if (_movieSize)
 		movieSize = _movieSize;
 
-	for (int i = 0; i < movieSize; i++) {
-		auto& tmp = images[i]->m_lst;
-		images[i]->m_lst = std::deque<std::shared_ptr<imageHandler> >(&tmp[offsetList[i]], &tmp[offsetList[i]+movieSize]);
+	for (int i = 0; i < images.size(); i++) {
+		auto tmp = images[i]->m_lst;
+//		std::deque<std::shared_ptr<imageHandler> > kk(tmp.begin() + offsetList[i], tmp.begin() + offsetList[i] + movieSize);
+//		images[i]->view("asd", 1, true);
+//		std::deque<std::shared_ptr<imageHandler> > (tmp[0].get(), tmp[2].get());
+		//std::deque<std::shared_ptr<imageHandler> > kk(&tmp[offsetList[i]], &tmp[offsetList[i] + movieSize]);
+		images[i]->m_lst = std::deque<std::shared_ptr<imageHandler> >(tmp.begin() + offsetList[i], tmp.begin() + offsetList[i] + movieSize);// (&tmp[offsetList[i]], &tmp[offsetList[i] + movieSize]);
 	}
 
 }
 
-void ImageManager::view()
-{
-	
+void ImageManager::view(){
+	for (int j = 0; j < movieSize; j++) {
+		for (int i = 0; i < images.size(); i++) {
+			std::stringstream ss;
+			ss << i;
+			images[i]->m_lst[j]->view(ss.str(), 1);
+		}
+	}
 }
 
 int main() {
+//	imhan("testMov.mp4")->RGB2Gray()->view("hello", 1, true);
 	ImageManager im;
-	im.setImages("testMov.mp4", "testMov.mp4");
+	im.setImages("C:/data/Outsider_Hiro/048.MP4", 
+		         "C:/data/Outsider_Hiro/049.MP4"
+	);
 	im.setOffset(0, 0);
-	im.resize(100, 100);
+	//im.resize(100, 100);
 	im.concat(1, 2);
+	im.trim(200);
 	im.view();
 
 	
